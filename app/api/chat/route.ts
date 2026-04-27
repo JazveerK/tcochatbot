@@ -16,12 +16,17 @@ export async function POST(req: NextRequest) {
     ? lastUserMessage.parts.filter(isTextUIPart).map((p) => p.text).join(" ")
     : "";
 
-  const chunks = queryText ? await retrieveContext(queryText, 5) : [];
-  const contextPrompt = buildContextPrompt(chunks);
+  let systemPrompt = "You are a helpful assistant. Answer questions as best you can.";
 
-  const systemPrompt = contextPrompt
-    ? contextPrompt
-    : "You are a helpful assistant. Answer questions as best you can.";
+  if (queryText) {
+    try {
+      const chunks = await retrieveContext(queryText, 5);
+      const contextPrompt = buildContextPrompt(chunks);
+      if (contextPrompt) systemPrompt = contextPrompt;
+    } catch {
+      // DB unavailable — answer without context
+    }
+  }
 
   const modelMessages = await convertToModelMessages(messages);
 

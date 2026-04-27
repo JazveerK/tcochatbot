@@ -14,10 +14,11 @@ export async function retrieveContext(
   const embedding = await embedText(query);
   const embeddingStr = `[${embedding.join(",")}]`;
 
+  // Cast via ::text::vector so the parameterized string value is accepted by pgvector
   const result = await sql`
-    SELECT content, metadata, 1 - (embedding <=> ${embeddingStr}::vector) AS similarity
+    SELECT content, metadata, 1 - (embedding <=> ${embeddingStr}::text::vector) AS similarity
     FROM documents
-    ORDER BY embedding <=> ${embeddingStr}::vector
+    ORDER BY embedding <=> ${embeddingStr}::text::vector
     LIMIT ${limit}
   `;
 

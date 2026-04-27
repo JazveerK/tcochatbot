@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Dark theme - professional slate palette */
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+
+  /* Surface colors */
+  --card: #1e293b;
+  --border: #334155;
+  --muted: #94a3b8;
+
+  /* Semantic colors */
+  --accent: #3b82f6;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+
+  /* Interaction states */
+  --hover: #1e293b;
+  --focus: #64748b;
 }
 
 @theme inline {
@@ -12,15 +28,91 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  @apply transition-colors duration-200;
+}
+
+html {
+  @apply h-full antialiased;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
+  @apply min-h-full flex flex-col;
+}
+
+/* Typography hierarchy */
+h1 {
+  @apply text-2xl font-semibold tracking-tight;
+}
+
+h2 {
+  @apply text-xl font-semibold tracking-tight;
+}
+
+h3 {
+  @apply text-lg font-medium;
+}
+
+p {
+  @apply text-sm leading-relaxed;
+}
+
+/* Focus states for accessibility */
+:focus-visible {
+  @apply outline-none ring-2 ring-offset-2 ring-offset-background ring-accent;
+}
+
+button:focus-visible {
+  @apply ring-2 ring-offset-2 ring-offset-background ring-accent;
+}
+
+input:focus-visible,
+textarea:focus-visible {
+  @apply ring-2 ring-offset-0 ring-accent;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* Animation utilities */
+@keyframes bounce {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bounce {
+  animation: bounce 1.4s infinite;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-200 {
+  animation-delay: 200ms;
 }

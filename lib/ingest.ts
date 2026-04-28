@@ -1,6 +1,5 @@
-// pdf-parse works as a default export
-// @ts-ignore - pdf-parse types are complex
-import pdfParse from "pdf-parse";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const pdfParse = require("pdf-parse") as (buffer: Buffer) => Promise<{ text: string }>;
 
 export async function extractTextFromPdf(buffer: Buffer): Promise<string> {
   try {

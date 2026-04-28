@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
 
   // Handle multipart form-data (file uploads)
   if (contentType.includes("multipart/form-data")) {
-    return new Promise((resolve) => {
+    return new Promise<Response>((resolve) => {
       const busboy_ = Busboy({ headers: { "content-type": contentType } });
       const files: Array<{
         fieldname: string;
